@@ -1,0 +1,85 @@
+//OPERATION ON STRINGS
+#include <stdio.h>
+#include <string.h>
+
+// Declaration to compare strings
+void compare_strings(const char *A, const char *B) {
+    if (strcmp(A, B) == 0) {
+        printf("THE TWO STRINGS ARE EQUAL.\n");
+    } else {
+        printf("THE TWO STRINGS ARE NOT EQUAL.\n");
+    }
+}
+
+// Declaration to copy string
+void copy_string(const char *source, char *destination) {
+    strcpy(destination, source);
+}
+
+// Declaration to find length
+int find_length(const char *string) {
+    return strlen(string);
+}
+
+// Declaration to concatenate strings
+void concatenate_strings(const char *A, const char *B, char *result) {
+    strcpy(result, A);
+    strcat(result, B);
+}
+
+int main() {
+    int choice,a;
+    char A[100], B[100], C[100], D[200];
+    // Input strings
+    printf("ENTER FIRST STRING: ");
+    fgets(A, sizeof(A), stdin);
+    A[strcspn(A, "\n")] = 0; // Remove newline character
+
+    printf("ENTER SECOND STRING: ");
+    fgets(B, sizeof(B), stdin);
+    B[strcspn(B, "\n")] = 0; // Remove newline character
+
+do{
+    printf("☆☆☆☆☆CHOOSE THE OPERATIONS TO PERFORM☆☆☆☆☆\n"
+        "\n           1-COMPARE 2 STRINGS\n"
+        "\n           2-COPY TWO STRINGS\n"
+        "\n           3-FIND LENGTH OF STRINGS\n"
+        "\n           4-CONCATENATE 2 STRINGS\n"
+        "\n           5-EXIT\n");
+    printf("\nENTER YOUR CHOICE: ");
+    scanf("%d", &choice);  // Use '&' to store the input correctly
+    getchar();  // Clear the newline character left by scanf
+
+    switch(choice) {
+        case 1:
+            // Compare strings
+            compare_strings(A, B);
+            break;
+        case 2:
+            // Copy string
+            copy_string(A, C);
+            printf("Copied string A: %s\n", C);
+            copy_string(B, C);
+            printf("Copied string B: %s\n", C);
+            break;
+        case 3:
+            // Find length of the first string
+            printf("LENGTH OF FIRST STRING: %d\n", find_length(A));
+            printf("LENGTH OF SECOND STRING: %d\n", find_length(B));
+            break;
+        case 4:
+            // Concatenate the two strings
+            concatenate_strings(A, B, D);
+            printf("CONCATENATED STRING: %s\n", D);
+            break;
+        case 5:
+            printf("EXITING THE PROGRAM\n");
+            break;
+        default:
+            printf("INVALID CHOICE\n");
+            break;
+    }
+    }while(choice!=5);
+    return 0;
+}
+

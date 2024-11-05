@@ -17,7 +17,7 @@ void display_books(const Book *library, int count);
 
 int main() {
     Book library[MAX_BOOKS];
-    int choice, bookCount = 0;
+    int choice, bookCount = 1;
 
     do {
         printf("☆☆☆☆☆ LIBRARY MANAGEMENT SYSTEM ☆☆☆☆☆\n"
@@ -106,7 +106,7 @@ void display_books(const Book *library, int count) {
         return;
     }
     printf("List of Books in the Library:\n");
-    for (int i = 0; i < count; i++) {
+    for (int i = 1; i < count; i++) {
         printf("%d. Title: \"%s\"\n", i, library[i].title);
     }
 }

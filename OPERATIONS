@@ -1,85 +1,112 @@
-//OPERATION ON STRINGS
+//library management system
 #include <stdio.h>
 #include <string.h>
 
-// Declaration to compare strings
-void compare_strings(const char *A, const char *B) {
-    if (strcmp(A, B) == 0) {
-        printf("THE TWO STRINGS ARE EQUAL.\n");
-    } else {
-        printf("THE TWO STRINGS ARE NOT EQUAL.\n");
-    }
-}
+#define MAX_BOOKS 100
+#define TITLE_LEN 100
 
-// Declaration to copy string
-void copy_string(const char *source, char *destination) {
-    strcpy(destination, source);
-}
+// Structure to represent a book
+typedef struct {
+    char title[TITLE_LEN];
+} Book;
 
-// Declaration to find length
-int find_length(const char *string) {
-    return strlen(string);
-}
-
-// Declaration to concatenate strings
-void concatenate_strings(const char *A, const char *B, char *result) {
-    strcpy(result, A);
-    strcat(result, B);
-}
+// Function prototypes
+void compare_title_lengths(const char *title1, const char *title2);
+void add_book(Book *library, int *count);
+void display_books(const Book *library, int count);
 
 int main() {
-    int choice,a;
-    char A[100], B[100], C[100], D[200];
-    // Input strings
-    printf("ENTER FIRST STRING: ");
-    fgets(A, sizeof(A), stdin);
-    A[strcspn(A, "\n")] = 0; // Remove newline character
+    Book library[MAX_BOOKS];
+    int choice, bookCount = 0;
 
-    printf("ENTER SECOND STRING: ");
-    fgets(B, sizeof(B), stdin);
-    B[strcspn(B, "\n")] = 0; // Remove newline character
+    do {
+        printf("☆☆☆☆☆ LIBRARY MANAGEMENT SYSTEM ☆☆☆☆☆\n"
+               "1. Add Book\n"
+               "2. Compare Lengths of Two Book Titles\n"
+               "3. Display All Books\n"
+               "4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        getchar();  // Clear the newline character
 
-do{
-    printf("☆☆☆☆☆CHOOSE THE OPERATIONS TO PERFORM☆☆☆☆☆\n"
-        "\n           1-COMPARE 2 STRINGS\n"
-        "\n           2-COPY TWO STRINGS\n"
-        "\n           3-FIND LENGTH OF STRINGS\n"
-        "\n           4-CONCATENATE 2 STRINGS\n"
-        "\n           5-EXIT\n");
-    printf("\nENTER YOUR CHOICE: ");
-    scanf("%d", &choice);  // Use '&' to store the input correctly
-    getchar();  // Clear the newline character left by scanf
+        switch (choice) {
+            case 1: // Add a book
+                if (bookCount < MAX_BOOKS) {
+                    add_book(library, &bookCount);
+                } else {
+                    printf("Library is full!\n");
+                }
+                break;
 
-    switch(choice) {
-        case 1:
-            // Compare strings
-            compare_strings(A, B);
-            break;
-        case 2:
-            // Copy string
-            copy_string(A, C);
-            printf("Copied string A: %s\n", C);
-            copy_string(B, C);
-            printf("Copied string B: %s\n", C);
-            break;
-        case 3:
-            // Find length of the first string
-            printf("LENGTH OF FIRST STRING: %d\n", find_length(A));
-            printf("LENGTH OF SECOND STRING: %d\n", find_length(B));
-            break;
-        case 4:
-            // Concatenate the two strings
-            concatenate_strings(A, B, D);
-            printf("CONCATENATED STRING: %s\n", D);
-            break;
-        case 5:
-            printf("EXITING THE PROGRAM\n");
-            break;
-        default:
-            printf("INVALID CHOICE\n");
-            break;
-    }
-    }while(choice!=5);
+            case 2: // Compare lengths of two book titles
+                {
+                    char title1[TITLE_LEN];
+                    char title2[TITLE_LEN];
+
+                    printf("Enter the first book title: ");
+                    fgets(title1, sizeof(title1), stdin);
+                    title1[strcspn(title1, "\n")] = 0; // Remove newline
+
+                    printf("Enter the second book title: ");
+                    fgets(title2, sizeof(title2), stdin);
+                    title2[strcspn(title2, "\n")] = 0; // Remove newline
+
+                    compare_title_lengths(title1, title2);
+                }
+                break;
+
+            case 3: // Display all books
+                display_books(library, bookCount);
+                break;
+
+            case 4: // Exit
+                printf("Exiting the program.\n");
+                break;
+
+            default:
+                printf("Invalid choice.\n");
+                break;
+        }
+    } while (choice != 4);
+
     return 0;
 }
 
+// Function to compare lengths of two book titles
+void compare_title_lengths(const char *title1, const char *title2) {
+    int length1 = strlen(title1);
+    int length2 = strlen(title2);
+
+    printf("Length of first book title \"%s\": %d characters.\n", title1, length1);
+    printf("Length of second book title \"%s\": %d characters.\n", title2, length2);
+
+    if (length1 == length2) {
+        printf("Both book titles are of equal length.\n");
+    } else if (length1 > length2) {
+        printf("The first book title is longer.\n");
+    } else {
+        printf("The second book title is longer.\n");
+    }
+}
+
+// Function to add a book
+void add_book(Book *library, int *count) {
+    printf("Enter book title: ");
+    fgets(library[*count].title, sizeof(library[*count].title), stdin);
+    library[*count].title[strcspn(library[*count].title, "\n")] = 0; // Remove newline
+
+    (*count)++;
+    printf("Book added successfully!\n");
+}
+
+// Function to display all books
+void display_books(const Book *library, int count) {
+    if (count == 0) {
+        printf("No books in the library.\n");
+        return;
+    }
+    printf("List of Books in the Library:\n");
+    for (int i = 0; i < count; i++) {
+        printf("%d. Title: \"%s\"\n", i, library[i].title);
+    }
+}
